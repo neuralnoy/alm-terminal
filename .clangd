@@ -1,4 +1,7 @@
 CompileFlags:
-  Add: 
-    - "-F/opt/homebrew/lib"
+  CompilationDatabase: build
+  Add:
+    - "-isystem"
+    - "/opt/homebrew/include"
     - "-I/opt/homebrew/include"
+    - "-F/opt/homebrew/lib"
