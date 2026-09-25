@@ -1,0 +1,4 @@
+CompileFlags:
+  Add: 
+    - "-F/opt/homebrew/lib"
+    - "-I/opt/homebrew/include"
