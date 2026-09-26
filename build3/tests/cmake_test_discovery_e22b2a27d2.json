@@ -1,0 +1,309 @@
+{
+  "tests": 51,
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "BusinessDayTest",
+      "tests": 5,
+      "testsuite": [
+        {
+          "name": "StringConversionsAndParsing",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/business_day_test.cc",
+          "line": 7
+        },
+        {
+          "name": "StandardAdjustment",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/business_day_test.cc",
+          "line": 28
+        },
+        {
+          "name": "ModifiedFollowing",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/business_day_test.cc",
+          "line": 45
+        },
+        {
+          "name": "ModifiedPreceding",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/business_day_test.cc",
+          "line": 58
+        },
+        {
+          "name": "NearestAdjustment",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/business_day_test.cc",
+          "line": 71
+        }
+      ]
+    },
+    {
+      "name": "CalendarTest",
+      "tests": 8,
+      "testsuite": [
+        {
+          "name": "EasterSunday",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/calendar_test.cc",
+          "line": 6
+        },
+        {
+          "name": "TargetHolidays",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/calendar_test.cc",
+          "line": 12
+        },
+        {
+          "name": "UnitedStatesHolidays",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/calendar_test.cc",
+          "line": 33
+        },
+        {
+          "name": "CustomHolidayOverrides",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/calendar_test.cc",
+          "line": 49
+        },
+        {
+          "name": "JointCalendar",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/calendar_test.cc",
+          "line": 61
+        },
+        {
+          "name": "BusinessDaysBetween",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/calendar_test.cc",
+          "line": 75
+        },
+        {
+          "name": "Advance",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/calendar_test.cc",
+          "line": 86
+        },
+        {
+          "name": "EndOfMonth",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/calendar_test.cc",
+          "line": 106
+        }
+      ]
+    },
+    {
+      "name": "ConventionsTest",
+      "tests": 4,
+      "testsuite": [
+        {
+          "name": "SofrOisProperties",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/conventions_test.cc",
+          "line": 6
+        },
+        {
+          "name": "SoniaOisProperties",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/conventions_test.cc",
+          "line": 20
+        },
+        {
+          "name": "UsTreasuryProperties",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/conventions_test.cc",
+          "line": 32
+        },
+        {
+          "name": "Lookup",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/conventions_test.cc",
+          "line": 46
+        }
+      ]
+    },
+    {
+      "name": "DateTest",
+      "tests": 11,
+      "testsuite": [
+        {
+          "name": "ConstructionAndFieldAccess",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/date_test.cc",
+          "line": 10
+        },
+        {
+          "name": "DayOfWeekAndWeekend",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/date_test.cc",
+          "line": 19
+        },
+        {
+          "name": "LeapYears",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/date_test.cc",
+          "line": 41
+        },
+        {
+          "name": "DayOfYear",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/date_test.cc",
+          "line": 56
+        },
+        {
+          "name": "EndOfMonth",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/date_test.cc",
+          "line": 67
+        },
+        {
+          "name": "DayArithmetic",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/date_test.cc",
+          "line": 82
+        },
+        {
+          "name": "MonthAndYearArithmetic",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/date_test.cc",
+          "line": 107
+        },
+        {
+          "name": "ComparisonAndSorting",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/date_test.cc",
+          "line": 134
+        },
+        {
+          "name": "FormattingAndStreaming",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/date_test.cc",
+          "line": 153
+        },
+        {
+          "name": "Parsing",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/date_test.cc",
+          "line": 165
+        },
+        {
+          "name": "HashSupport",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/date_test.cc",
+          "line": 180
+        }
+      ]
+    },
+    {
+      "name": "DayCountTest",
+      "tests": 8,
+      "testsuite": [
+        {
+          "name": "Actual360",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/day_count_test.cc",
+          "line": 7
+        },
+        {
+          "name": "Actual365Fixed",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/day_count_test.cc",
+          "line": 18
+        },
+        {
+          "name": "Actual365NoLeap",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/day_count_test.cc",
+          "line": 33
+        },
+        {
+          "name": "ActualActualISDA",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/day_count_test.cc",
+          "line": 42
+        },
+        {
+          "name": "ActualActualICMA",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/day_count_test.cc",
+          "line": 59
+        },
+        {
+          "name": "Thirty360US",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/day_count_test.cc",
+          "line": 67
+        },
+        {
+          "name": "ThirtyE360",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/day_count_test.cc",
+          "line": 81
+        },
+        {
+          "name": "ParsingAndFormatting",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/day_count_test.cc",
+          "line": 90
+        }
+      ]
+    },
+    {
+      "name": "FrequencyTest",
+      "tests": 2,
+      "testsuite": [
+        {
+          "name": "EventsPerYearAndYearFraction",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/frequency_test.cc",
+          "line": 7
+        },
+        {
+          "name": "ParsingAndFormatting",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/frequency_test.cc",
+          "line": 22
+        }
+      ]
+    },
+    {
+      "name": "PeriodTest",
+      "tests": 7,
+      "testsuite": [
+        {
+          "name": "ConstructionAndAccessors",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/period_test.cc",
+          "line": 7
+        },
+        {
+          "name": "FrequencyConversion",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/period_test.cc",
+          "line": 17
+        },
+        {
+          "name": "NormalizationAndEquality",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/period_test.cc",
+          "line": 28
+        },
+        {
+          "name": "Arithmetic",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/period_test.cc",
+          "line": 39
+        },
+        {
+          "name": "Comparisons",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/period_test.cc",
+          "line": 58
+        },
+        {
+          "name": "DateAdvance",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/period_test.cc",
+          "line": 65
+        },
+        {
+          "name": "ParsingAndFormatting",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/period_test.cc",
+          "line": 79
+        }
+      ]
+    },
+    {
+      "name": "ScheduleTest",
+      "tests": 6,
+      "testsuite": [
+        {
+          "name": "RegularSemiAnnualBackward",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/schedule_test.cc",
+          "line": 6
+        },
+        {
+          "name": "FrontStubBackward",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/schedule_test.cc",
+          "line": 35
+        },
+        {
+          "name": "BackStubForward",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/schedule_test.cc",
+          "line": 61
+        },
+        {
+          "name": "ZeroCouponSchedule",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/schedule_test.cc",
+          "line": 87
+        },
+        {
+          "name": "BusinessDayAdjustmentInSchedule",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/schedule_test.cc",
+          "line": 103
+        },
+        {
+          "name": "EndOfMonthSchedule",
+          "file": "\/Users\/arstep\/Projects\/alm_terminal\/tests\/time\/schedule_test.cc",
+          "line": 125
+        }
+      ]
+    }
+  ]
+}

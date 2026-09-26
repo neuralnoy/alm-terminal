@@ -1,16 +1,3 @@
-/**
- * @file schedule.h
- *
- * Defines the generation of date schedules for cash flows and interest periods.
- *
- * Responsibilities:
- * - Generate sequences of dates for bonds, loans, and swaps.
- * - Combine start date, end date, frequency/tenor, Calendar, and Business Day
- * Convention.
- * - Support Forward, Backward, Zero, and IMM date generation rules.
- * - Support short/long front and back stub periods.
- */
-
 #pragma once
 
 #include "time/business_day.h"

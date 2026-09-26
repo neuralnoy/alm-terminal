@@ -1,17 +1,3 @@
-/**
- * @file frequency.h
- *
- * Defines frequencies and compounding periods for payments and interest
- * calculations.
- *
- * Responsibilities:
- * - Define standard market frequencies (Annual, SemiAnnual, Quarterly, Monthly,
- * etc.).
- * - Provide functions to convert frequencies into year fractions and
- * compounding counts.
- * - Provide string parsing and formatting for financial frequency codes.
- */
-
 #pragma once
 
 #include <cstdint>

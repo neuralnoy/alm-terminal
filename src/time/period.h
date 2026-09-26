@@ -1,16 +1,3 @@
-/**
- * @file period.h
- *
- * Defines explicit time intervals (Tenors) used in financial modeling.
- *
- * Responsibilities:
- * - Define a Period (or Tenor) representing an exact duration of time (e.g.
- * "3M", "5Y", "1W").
- * - Provide date arithmetic using periods.
- * - Serve as standard vocabulary for describing maturities, reset intervals,
- * and payment tenors.
- */
-
 #pragma once
 
 #include "time/date.h"

@@ -1,18 +1,3 @@
-/**
- * @file day_count.h
- *
- * Defines Day Count Conventions used to calculate accrual fractions and day
- * counts.
- *
- * Responsibilities:
- * - Define interface and high-performance implementations for market day count
- * conventions: Actual/360, Actual/365 Fixed, Actual/365 No Leap, Actual/Actual
- * ISDA, Actual/Actual ICMA, 30/360 US (Bond Basis), 30E/360 (Eurobond Basis),
- *   30E/360 ISDA, and One/One.
- * - Compute exact day count integer differences and floating-point year
- * fractions.
- */
-
 #pragma once
 
 #include "time/date.h"

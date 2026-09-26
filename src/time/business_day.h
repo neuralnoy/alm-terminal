@@ -1,15 +1,3 @@
-/**
- * @file business_day.h
- *
- * Defines business day rolling conventions used in financial contracts.
- *
- * Responsibilities:
- * - Define enumerations for standard conventions (Following, Modified
- * Following, Preceding, Modified Preceding, Unadjusted, etc.).
- * - Provide the interface to adjust a non-business day (holiday or weekend)
- *   to a valid business day based on a specified convention and Calendar.
- */
-
 #pragma once
 
 #include "time/date.h"

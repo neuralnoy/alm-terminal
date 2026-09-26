@@ -1,17 +1,3 @@
-/**
- * @file date.h
- *
- * Foundational date types and basic date arithmetic for the ALM engine.
- *
- * Responsibilities:
- * - Wrap and extend standard C++20/C++23 chrono date types
- * (std::chrono::sys_days) for ergonomic, type-safe, and zero-overhead use
- * throughout the financial domain.
- * - Provide high-performance date manipulation (days, months, years) with
- *   support for end-of-month conventions.
- * - Provide comparison, hashing, formatting, and ISO parsing utilities.
- */
-
 #pragma once
 
 #include <chrono>
@@ -133,19 +119,9 @@ public:
     auto ymd = std::chrono::year_month_day{tp_};
     bool was_eom = preserve_eom && is_end_of_month();
 
-    int64_t total_months =
-        static_cast<int64_t>(static_cast<int>(ymd.year())) * 12 +
-        (static_cast<int64_t>(static_cast<unsigned>(ymd.month())) - 1) + months;
-    int64_t new_year = total_months / 12;
-    int64_t new_month_idx = total_months % 12;
-    if (new_month_idx < 0) {
-      new_month_idx += 12;
-      new_year -= 1;
-    }
-
-    auto target_y = std::chrono::year{static_cast<int>(new_year)};
-    auto target_m =
-        std::chrono::month{static_cast<unsigned>(new_month_idx + 1)};
+    auto new_ym = ymd.year() / ymd.month() + std::chrono::months{months};
+    auto target_y = new_ym.year();
+    auto target_m = new_ym.month();
 
     if (was_eom) {
       auto last_day = std::chrono::year_month_day_last{

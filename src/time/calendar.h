@@ -1,16 +1,3 @@
-/**
- * @file calendar.h
- *
- * Defines financial calendars and holiday schedules for global markets.
- *
- * Responsibilities:
- * - Provide high-performance calendar checks (business day, holiday, weekend).
- * - Implement market-specific holiday rules for TARGET, US, UK, Switzerland,
- * Japan.
- * - Support joint / composite calendars and custom holiday overrides.
- * - Provide business day rolling (adjust) and date advancement logic.
- */
-
 #pragma once
 
 #include "time/business_day.h"

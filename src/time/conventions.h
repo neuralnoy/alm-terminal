@@ -1,16 +1,3 @@
-/**
- * @file conventions.h
- *
- * Defines market conventions for standard financial products.
- *
- * Responsibilities:
- * - Group together standard rules for a specific market or instrument.
- * - Combine Day Count, Business Day Convention, Settlement Days, Calendar, and
- * Frequency.
- * - Serve as a central factory for standard market presets (SOFR, ESTR,
- * EURIBOR, Treasuries, etc.).
- */
-
 #pragma once
 
 #include "time/business_day.h"

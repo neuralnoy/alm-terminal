@@ -1,0 +1,4 @@
+alm-desktop_autogen/timestamp: \
+	/Users/arstep/Projects/alm_terminal/apps/alm-desktop/CMakeLists.txt \
+	/Users/arstep/Projects/alm_terminal/apps/alm-desktop/main.cc \
+	/opt/homebrew/bin/cmake

@@ -19,14 +19,18 @@ int64_t DayCounter::day_count(Date start, Date end) const noexcept {
     if (start > end)
       return -day_count(end, start);
     int64_t raw_days = end - start;
-    int leap_days = 0;
-    Date cur = start;
-    while (cur < end) {
-      if (cur.month() == 2 && cur.day() == 29) {
-        ++leap_days;
+
+    auto leap_days_before = [](Date d) -> int {
+      int y = d.year();
+      int y_minus_1 = y - 1;
+      int leaps = (y_minus_1 / 4) - (y_minus_1 / 100) + (y_minus_1 / 400);
+      if (Date::is_leap_year(y) && d.month() > 2) {
+        leaps += 1;
       }
-      ++cur;
-    }
+      return leaps;
+    };
+
+    int leap_days = leap_days_before(end) - leap_days_before(start);
     return raw_days - leap_days;
   }
 
@@ -108,9 +112,7 @@ double DayCounter::year_fraction(Date start, Date end, Date ref_start,
     double dib1 = Date::is_leap_year(y1) ? 366.0 : 365.0;
     sum += static_cast<double>(start_next_y - start) / dib1;
 
-    for (int y = y1 + 1; y < y2; ++y) {
-      sum += 1.0;
-    }
+    sum += static_cast<double>(y2 - y1 - 1);
 
     Date start_y2(y2, 1, 1);
     double dib2 = Date::is_leap_year(y2) ? 366.0 : 365.0;
