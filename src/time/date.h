@@ -1,5 +1,5 @@
 /**
- * @file date.h
+ * @file date.hpp
  *
  * Foundational date types and basic date arithmetic for the ALM engine.
  *
@@ -19,7 +19,17 @@
 namespace alm::time {
 class Date {
 public:
-  //
+  // Constructors
+  Date() = default;
+  Date(std::chrono::year y, std::chrono::month m, std::chrono::day d);
+  Date(int year, unsigned month, unsigned day);
+  explicit Date(std::chrono::sys_days tp);
+
+  // Observers
+  int year() const;
+  unsigned month() const;
+  unsigned day() const;
+
 private:
 };
 } // namespace alm::time
