@@ -12,7 +12,7 @@ if(NOT GTest_FOUND)
 endif()
 
 # Discover all test files
-file(GLOB_RECURSE TEST_SOURCES "*.cpp")
+file(GLOB_RECURSE TEST_SOURCES "*.cc")
 
 add_executable(alm_tests ${TEST_SOURCES})
 

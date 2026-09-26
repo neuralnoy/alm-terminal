@@ -11,3 +11,15 @@
  * years) without adjusting for holidays.
  * - Define standard interfaces for date serialization, formatting, and parsing.
  */
+
+// #pragma once
+//
+// #include <chrono>
+//
+// namespace alm::time {
+// class Date {
+// public:
+//   //
+// private:
+// };
+// }

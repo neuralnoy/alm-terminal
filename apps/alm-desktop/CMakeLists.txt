@@ -1,6 +1,6 @@
 # Executable for the desktop application
 add_executable(alm-desktop
-    main.cpp
+    main.cc
 )
 
 # Link both the domain engine and the Qt UI library
