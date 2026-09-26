@@ -1,26 +1,55 @@
 #include "time/date.h"
 
+#include <charconv>
+#include <iostream>
+
 namespace alm::time {
 
-Date::Date(std::chrono::year y, std::chrono::month m, std::chrono::day d)
-    : tp_{std::chrono::year_month_day{y, m, d}} {}
-
-Date::Date(int year, unsigned month, unsigned day)
-    : Date(std::chrono::year{year}, std::chrono::month{month},
-           std::chrono::day{day}) {}
-
-Date::Date(std::chrono::sys_days tp) : tp_{tp} {}
-
-int Date::year() const {
-  return static_cast<int>(std::chrono::year_month_day{tp_}.year());
+Date Date::today() noexcept {
+  const auto now = std::chrono::system_clock::now();
+  return Date{std::chrono::floor<std::chrono::days>(now)};
 }
 
-unsigned Date::month() const {
-  return static_cast<unsigned>(std::chrono::year_month_day{tp_}.month());
+std::string Date::to_string() const {
+  const auto ymd = to_year_month_day();
+  return std::format("{:04d}-{:02d}-{:02d}", static_cast<int>(ymd.year()),
+                     static_cast<unsigned>(ymd.month()),
+                     static_cast<unsigned>(ymd.day()));
 }
 
-unsigned Date::day() const {
-  return static_cast<unsigned>(std::chrono::year_month_day{tp_}.day());
+std::optional<Date> Date::parse(std::string_view text) {
+  if (text.size() == 10 && text[4] == '-' && text[7] == '-') {
+    int y = 0;
+    unsigned m = 0;
+    unsigned d = 0;
+    const auto res_y = std::from_chars(text.data(), text.data() + 4, y);
+    const auto res_m = std::from_chars(text.data() + 5, text.data() + 7, m);
+    const auto res_d = std::from_chars(text.data() + 8, text.data() + 10, d);
+    if (res_y.ec == std::errc{} && res_m.ec == std::errc{} &&
+        res_d.ec == std::errc{}) {
+      if (is_valid_date(y, m, d)) {
+        return Date(y, m, d);
+      }
+    }
+  } else if (text.size() == 8) {
+    int y = 0;
+    unsigned m = 0;
+    unsigned d = 0;
+    const auto res_y = std::from_chars(text.data(), text.data() + 4, y);
+    const auto res_m = std::from_chars(text.data() + 4, text.data() + 6, m);
+    const auto res_d = std::from_chars(text.data() + 6, text.data() + 8, d);
+    if (res_y.ec == std::errc{} && res_m.ec == std::errc{} &&
+        res_d.ec == std::errc{}) {
+      if (is_valid_date(y, m, d)) {
+        return Date(y, m, d);
+      }
+    }
+  }
+  return std::nullopt;
+}
+
+std::ostream &operator<<(std::ostream &os, const Date &date) {
+  return os << date.to_string();
 }
 
 } // namespace alm::time

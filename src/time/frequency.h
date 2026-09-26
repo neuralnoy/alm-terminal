@@ -1,13 +1,112 @@
 /**
  * @file frequency.h
  *
- * Defines frequencies and periods (tenors) for payments and compounding.
+ * Defines frequencies and compounding periods for payments and interest
+ * calculations.
  *
  * Responsibilities:
- * - Define enumerations for standard periodic frequencies (e.g., Annual,
- * Semi-Annual, Quarterly, Monthly, Daily, Continuous).
- * - Define types to represent discrete Tenors (e.g., "3 Months", "5 Years") as
- *   intervals of time.
- * - Provide functions to convert frequencies into fractions of a year (e.g.,
- * Quarterly = 0.25) and vice versa.
+ * - Define standard market frequencies (Annual, SemiAnnual, Quarterly, Monthly,
+ * etc.).
+ * - Provide functions to convert frequencies into year fractions and
+ * compounding counts.
+ * - Provide string parsing and formatting for financial frequency codes.
  */
+
+#pragma once
+
+#include <cstdint>
+#include <format>
+#include <iosfwd>
+#include <optional>
+#include <string>
+#include <string_view>
+
+namespace alm::time {
+
+enum class Frequency : int32_t {
+  NoFrequency = -1,
+  Once = 0,
+  Annual = 1,
+  SemiAnnual = 2,
+  EveryFourthMonth = 3,
+  Quarterly = 4,
+  Bimonthly = 6,
+  Monthly = 12,
+  EveryFourthWeek = 13,
+  Biweekly = 26,
+  Weekly = 52,
+  Daily = 365,
+  OtherFrequency = 999
+};
+
+[[nodiscard]] constexpr double events_per_year(Frequency freq) noexcept {
+  switch (freq) {
+  case Frequency::Annual:
+    return 1.0;
+  case Frequency::SemiAnnual:
+    return 2.0;
+  case Frequency::EveryFourthMonth:
+    return 3.0;
+  case Frequency::Quarterly:
+    return 4.0;
+  case Frequency::Bimonthly:
+    return 6.0;
+  case Frequency::Monthly:
+    return 12.0;
+  case Frequency::EveryFourthWeek:
+    return 13.0;
+  case Frequency::Biweekly:
+    return 26.0;
+  case Frequency::Weekly:
+    return 52.0;
+  case Frequency::Daily:
+    return 365.0;
+  case Frequency::Once:
+    return 0.0;
+  default:
+    return 0.0;
+  }
+}
+
+[[nodiscard]] constexpr double year_fraction(Frequency freq) noexcept {
+  switch (freq) {
+  case Frequency::Annual:
+    return 1.0;
+  case Frequency::SemiAnnual:
+    return 0.5;
+  case Frequency::EveryFourthMonth:
+    return 1.0 / 3.0;
+  case Frequency::Quarterly:
+    return 0.25;
+  case Frequency::Bimonthly:
+    return 1.0 / 6.0;
+  case Frequency::Monthly:
+    return 1.0 / 12.0;
+  case Frequency::EveryFourthWeek:
+    return 4.0 / 52.0;
+  case Frequency::Biweekly:
+    return 2.0 / 52.0;
+  case Frequency::Weekly:
+    return 1.0 / 52.0;
+  case Frequency::Daily:
+    return 1.0 / 365.0;
+  case Frequency::Once:
+    return 1.0;
+  default:
+    return 0.0;
+  }
+}
+
+[[nodiscard]] std::string to_string(Frequency freq);
+[[nodiscard]] std::optional<Frequency> parse_frequency(std::string_view text);
+
+std::ostream &operator<<(std::ostream &os, Frequency freq);
+
+} // namespace alm::time
+
+template <>
+struct std::formatter<alm::time::Frequency> : std::formatter<std::string> {
+  auto format(alm::time::Frequency f, std::format_context &ctx) const {
+    return std::formatter<std::string>::format(alm::time::to_string(f), ctx);
+  }
+};
