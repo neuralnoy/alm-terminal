@@ -38,51 +38,60 @@ std::string to_string(Frequency freq) {
 }
 
 std::optional<Frequency> parse_frequency(std::string_view text) {
-  std::string clean;
-  clean.reserve(text.size());
+  char clean[64];
+  size_t len = 0;
   for (char c : text) {
     if (c != '-' && c != '_' && c != ' ') {
-      clean.push_back(
-          static_cast<char>(std::toupper(static_cast<unsigned char>(c))));
+      if (len < sizeof(clean)) {
+        clean[len++] =
+            static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+      }
     }
   }
+  std::string_view clean_sv(clean, len);
 
-  if (clean == "1Y" || clean == "12M" || clean == "ANNUAL" ||
-      clean == "ANNUALLY" || clean == "1") {
+  auto is_any_of = [&](std::initializer_list<std::string_view> targets) {
+    for (auto t : targets) {
+      if (clean_sv == t)
+        return true;
+    }
+    return false;
+  };
+
+  if (is_any_of({"1Y", "12M", "ANNUAL", "ANNUALLY", "1"})) {
     return Frequency::Annual;
   }
-  if (clean == "6M" || clean == "SEMIANNUAL" || clean == "SEMIANNUALLY" ||
-      clean == "SA" || clean == "2") {
+  if (is_any_of({"6M", "SEMIANNUAL", "SEMIANNUALLY", "SA", "2"})) {
     return Frequency::SemiAnnual;
   }
-  if (clean == "4M" || clean == "EVERYFOURTHMONTH" || clean == "3") {
+  if (is_any_of({"4M", "EVERYFOURTHMONTH", "3"})) {
     return Frequency::EveryFourthMonth;
   }
-  if (clean == "3M" || clean == "QUARTERLY" || clean == "Q" || clean == "4") {
+  if (is_any_of({"3M", "QUARTERLY", "Q", "4"})) {
     return Frequency::Quarterly;
   }
-  if (clean == "2M" || clean == "BIMONTHLY" || clean == "6") {
+  if (is_any_of({"2M", "BIMONTHLY", "6"})) {
     return Frequency::Bimonthly;
   }
-  if (clean == "1M" || clean == "MONTHLY" || clean == "M" || clean == "12") {
+  if (is_any_of({"1M", "MONTHLY", "M", "12"})) {
     return Frequency::Monthly;
   }
-  if (clean == "4W" || clean == "EVERYFOURTHWEEK" || clean == "13") {
+  if (is_any_of({"4W", "EVERYFOURTHWEEK", "13"})) {
     return Frequency::EveryFourthWeek;
   }
-  if (clean == "2W" || clean == "BIWEEKLY" || clean == "BW" || clean == "26") {
+  if (is_any_of({"2W", "BIWEEKLY", "BW", "26"})) {
     return Frequency::Biweekly;
   }
-  if (clean == "1W" || clean == "WEEKLY" || clean == "W" || clean == "52") {
+  if (is_any_of({"1W", "WEEKLY", "W", "52"})) {
     return Frequency::Weekly;
   }
-  if (clean == "1D" || clean == "DAILY" || clean == "D" || clean == "365") {
+  if (is_any_of({"1D", "DAILY", "D", "365"})) {
     return Frequency::Daily;
   }
-  if (clean == "ONCE" || clean == "ZERO" || clean == "0") {
+  if (is_any_of({"ONCE", "ZERO", "0"})) {
     return Frequency::Once;
   }
-  if (clean == "NONE" || clean == "NOFREQUENCY" || clean == "-1") {
+  if (is_any_of({"NONE", "NOFREQUENCY", "-1"})) {
     return Frequency::NoFrequency;
   }
 

@@ -24,7 +24,8 @@ int64_t DayCounter::day_count(Date start, Date end) const noexcept {
       int y = d.year();
       int y_minus_1 = y - 1;
       int leaps = (y_minus_1 / 4) - (y_minus_1 / 100) + (y_minus_1 / 400);
-      if (Date::is_leap_year(y) && d.month() > 2) {
+      if (Date::is_leap_year(y) &&
+          (d.month() > 2 || (d.month() == 2 && d.day() == 29))) {
         leaps += 1;
       }
       return leaps;
@@ -40,10 +41,19 @@ int64_t DayCounter::day_count(Date start, Date end) const noexcept {
     int y2 = end.year(), m2 = static_cast<int>(end.month()),
         d2 = static_cast<int>(end.day());
 
-    if (d1 == 31)
-      d1 = 30;
-    if (d2 == 31 && d1 >= 30)
+    if (start.is_end_of_month() && m1 == 2 && end.is_end_of_month() &&
+        m2 == 2) {
       d2 = 30;
+    }
+    if (start.is_end_of_month() && m1 == 2) {
+      d1 = 30;
+    }
+    if (d2 == 31 && d1 >= 30) {
+      d2 = 30;
+    }
+    if (d1 == 31) {
+      d1 = 30;
+    }
 
     return 360LL * (y2 - y1) + 30LL * (m2 - m1) + (d2 - d1);
   }
@@ -196,45 +206,52 @@ std::string to_string(DayCountConvention conv) {
 
 std::optional<DayCountConvention>
 parse_day_count_convention(std::string_view text) {
-  std::string clean;
-  clean.reserve(text.size());
+  char clean[64];
+  size_t len = 0;
   for (char c : text) {
     if (c != '/' && c != '-' && c != '_' && c != ' ') {
-      clean.push_back(
-          static_cast<char>(std::toupper(static_cast<unsigned char>(c))));
+      if (len < sizeof(clean)) {
+        clean[len++] =
+            static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+      }
     }
   }
+  std::string_view clean_sv(clean, len);
 
-  if (clean == "ACT360" || clean == "ACTUAL360" || clean == "A360") {
+  auto is_any_of = [&](std::initializer_list<std::string_view> targets) {
+    for (auto t : targets) {
+      if (clean_sv == t)
+        return true;
+    }
+    return false;
+  };
+
+  if (is_any_of({"ACT360", "ACTUAL360", "A360"})) {
     return DayCountConvention::Actual360;
   }
-  if (clean == "ACT365" || clean == "ACTUAL365" || clean == "ACTUAL365FIXED" ||
-      clean == "A365F" || clean == "A365") {
+  if (is_any_of({"ACT365", "ACTUAL365", "ACTUAL365FIXED", "A365F", "A365"})) {
     return DayCountConvention::Actual365Fixed;
   }
-  if (clean == "ACT365NL" || clean == "ACTUAL365NOLEAP") {
+  if (is_any_of({"ACT365NL", "ACTUAL365NOLEAP"})) {
     return DayCountConvention::Actual365NoLeap;
   }
-  if (clean == "ACTACT" || clean == "ACTUALACTUAL" || clean == "ACTACTISDA" ||
-      clean == "ACTUALACTUALISDA") {
+  if (is_any_of({"ACTACT", "ACTUALACTUAL", "ACTACTISDA", "ACTUALACTUALISDA"})) {
     return DayCountConvention::ActualActualISDA;
   }
-  if (clean == "ACTACTICMA" || clean == "ACTUALACTUALICMA" ||
-      clean == "ACTACTBOND") {
+  if (is_any_of({"ACTACTICMA", "ACTUALACTUALICMA", "ACTACTBOND"})) {
     return DayCountConvention::ActualActualICMA;
   }
-  if (clean == "30360" || clean == "30360US" || clean == "THIRTY360US" ||
-      clean == "BONDBASIS") {
+  if (is_any_of({"30360", "30360US", "THIRTY360US", "BONDBASIS"})) {
     return DayCountConvention::Thirty360US;
   }
-  if (clean == "30E360" || clean == "30360E" || clean == "THIRTYE360" ||
-      clean == "EUROBONDBASIS" || clean == "ISMA30360") {
+  if (is_any_of(
+          {"30E360", "30360E", "THIRTYE360", "EUROBONDBASIS", "ISMA30360"})) {
     return DayCountConvention::ThirtyE360;
   }
-  if (clean == "30E360ISDA" || clean == "THIRTYE360ISDA") {
+  if (is_any_of({"30E360ISDA", "THIRTYE360ISDA"})) {
     return DayCountConvention::ThirtyE360ISDA;
   }
-  if (clean == "11" || clean == "ONEONE") {
+  if (is_any_of({"11", "ONEONE"})) {
     return DayCountConvention::OneOne;
   }
 

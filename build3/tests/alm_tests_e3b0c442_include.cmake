@@ -1,5 +1,0 @@
-if(EXISTS "/Users/arstep/Projects/alm_terminal/build3/tests/alm_tests_e3b0c442_tests.cmake")
-  include("/Users/arstep/Projects/alm_terminal/build3/tests/alm_tests_e3b0c442_tests.cmake")
-else()
-  add_test(alm_tests_NOT_BUILT alm_tests_NOT_BUILT)
-endif()

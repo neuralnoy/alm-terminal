@@ -205,10 +205,36 @@ Schedule ScheduleBuilder::build() const {
              rule_ == DateGenerationRule::TwentiethIMM) {
     Date cur = effective_date_;
     unadjusted.push_back(cur);
+
+    if (rule_ == DateGenerationRule::TwentiethIMM) {
+      int m = cur.month();
+      int rem = m % 3;
+      int months_to_add = (rem == 0) ? 0 : (3 - rem);
+      Date next_imm(cur.year(), cur.month(), 20);
+      next_imm = next_imm.add_months(months_to_add);
+      if (next_imm <= cur) {
+        next_imm = next_imm.add_months(3);
+      }
+      cur = next_imm;
+    } else {
+      Date next_twentieth(cur.year(), cur.month(), 20);
+      if (next_twentieth <= cur) {
+        int step_months =
+            tenor_.units() == TimeUnit::Months ? tenor_.length() : 1;
+        next_twentieth = next_twentieth.add_months(step_months);
+      }
+      cur = next_twentieth;
+    }
+
+    if (cur < termination_date_) {
+      unadjusted.push_back(cur);
+    }
+
     int step_months =
         (rule_ == DateGenerationRule::TwentiethIMM)
             ? 3
             : (tenor_.units() == TimeUnit::Months ? tenor_.length() : 1);
+
     while (cur < termination_date_) {
       Date next_month = cur.add_months(step_months);
       Date twentieth(next_month.year(), next_month.month(), 20);

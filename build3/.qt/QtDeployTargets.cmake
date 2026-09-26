@@ -1,8 +1,0 @@
-set(__QT_DEPLOY_TARGET_alm-desktop_FILE /Users/arstep/Projects/alm_terminal/build3/apps/alm-desktop/alm-desktop)
-set(__QT_DEPLOY_TARGET_alm-desktop_TYPE EXECUTABLE)
-set(__QT_DEPLOY_TARGET_alm_tests_FILE /Users/arstep/Projects/alm_terminal/build3/tests/alm_tests)
-set(__QT_DEPLOY_TARGET_alm_tests_TYPE EXECUTABLE)
-set(__QT_DEPLOY_TARGET_alm_domain_FILE /Users/arstep/Projects/alm_terminal/build3/libalm_domain.a)
-set(__QT_DEPLOY_TARGET_alm_domain_TYPE STATIC_LIBRARY)
-set(__QT_DEPLOY_TARGET_alm_ui_FILE /Users/arstep/Projects/alm_terminal/build3/libalm_ui.a)
-set(__QT_DEPLOY_TARGET_alm_ui_TYPE STATIC_LIBRARY)
