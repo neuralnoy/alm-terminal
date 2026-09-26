@@ -60,8 +60,8 @@ public:
 
 protected:
   std::shared_ptr<const Impl> impl_;
-  std::shared_ptr<std::unordered_set<Date>> added_holidays_;
-  std::shared_ptr<std::unordered_set<Date>> removed_holidays_;
+  std::unordered_set<Date> added_holidays_;
+  std::unordered_set<Date> removed_holidays_;
 };
 
 // --- Standard Global Financial Calendars ---

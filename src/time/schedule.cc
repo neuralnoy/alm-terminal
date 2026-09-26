@@ -6,7 +6,7 @@
 namespace alm::time {
 
 Schedule::Schedule(std::vector<Date> dates, std::vector<Date> unadjusted_dates,
-                   std::vector<bool> is_regular, Calendar calendar,
+                   std::vector<uint8_t> is_regular, Calendar calendar,
                    BusinessDayConvention convention)
     : dates_{std::move(dates)}, unadjusted_dates_{std::move(unadjusted_dates)},
       is_regular_{std::move(is_regular)}, calendar_{std::move(calendar)},
@@ -18,7 +18,7 @@ SchedulePeriod Schedule::period(size_t index) const {
   }
   return SchedulePeriod{dates_[index], dates_[index + 1],
                         unadjusted_dates_[index], unadjusted_dates_[index + 1],
-                        is_regular_[index]};
+                        static_cast<bool>(is_regular_[index])};
 }
 
 ScheduleBuilder &ScheduleBuilder::from(Date effective_date) {
@@ -95,7 +95,7 @@ Schedule ScheduleBuilder::build() const {
     std::vector<Date> unadj = {effective_date_, termination_date_};
     std::vector<Date> adj = {calendar_.adjust(effective_date_, convention_),
                              calendar_.adjust(termination_date_, term_conv)};
-    std::vector<bool> reg = {true};
+    std::vector<uint8_t> reg = {1};
     return Schedule(std::move(adj), std::move(unadj), std::move(reg), calendar_,
                     convention_);
   }
@@ -244,12 +244,12 @@ Schedule ScheduleBuilder::build() const {
   }
 
   // Regularity check
-  std::vector<bool> is_regular;
+  std::vector<uint8_t> is_regular;
   if (n > 1) {
     is_regular.reserve(n - 1);
     for (size_t i = 0; i < n - 1; ++i) {
       Date expected = advance(unadjusted[i], tenor_, end_of_month_);
-      is_regular.push_back(expected == unadjusted[i + 1]);
+      is_regular.push_back(expected == unadjusted[i + 1] ? 1 : 0);
     }
   }
 

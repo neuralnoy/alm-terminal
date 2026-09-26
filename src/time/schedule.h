@@ -34,7 +34,7 @@ class Schedule {
 public:
   Schedule() = default;
   Schedule(std::vector<Date> dates, std::vector<Date> unadjusted_dates,
-           std::vector<bool> is_regular, Calendar calendar,
+           std::vector<uint8_t> is_regular, Calendar calendar,
            BusinessDayConvention convention);
 
   [[nodiscard]] size_t size() const noexcept { return dates_.size(); }
@@ -62,7 +62,7 @@ public:
   }
 
   [[nodiscard]] bool is_regular(size_t period_index) const {
-    return is_regular_[period_index];
+    return is_regular_[period_index] != 0;
   }
 
   [[nodiscard]] SchedulePeriod period(size_t index) const;
@@ -79,7 +79,7 @@ public:
 private:
   std::vector<Date> dates_;
   std::vector<Date> unadjusted_dates_;
-  std::vector<bool> is_regular_;
+  std::vector<uint8_t> is_regular_;
   Calendar calendar_{WeekendsOnly()};
   BusinessDayConvention convention_{BusinessDayConvention::Following};
 };

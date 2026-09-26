@@ -24,10 +24,7 @@ Date last_weekday(std::chrono::weekday wd, unsigned month, int year) {
 // Calendar Base
 // -------------------------------------------------------------
 
-Calendar::Calendar(std::shared_ptr<const Impl> impl)
-    : impl_{std::move(impl)},
-      added_holidays_{std::make_shared<std::unordered_set<Date>>()},
-      removed_holidays_{std::make_shared<std::unordered_set<Date>>()} {}
+Calendar::Calendar(std::shared_ptr<const Impl> impl) : impl_{std::move(impl)} {}
 
 bool Calendar::is_weekend(Date date) const {
   if (impl_)
@@ -36,9 +33,9 @@ bool Calendar::is_weekend(Date date) const {
 }
 
 bool Calendar::is_business_day(Date date) const {
-  if (added_holidays_ && added_holidays_->contains(date))
+  if (!added_holidays_.empty() && added_holidays_.contains(date))
     return false;
-  if (removed_holidays_ && removed_holidays_->contains(date))
+  if (!removed_holidays_.empty() && removed_holidays_.contains(date))
     return !is_weekend(date);
   if (!impl_)
     return !date.is_weekend();
@@ -227,23 +224,20 @@ std::vector<Date> Calendar::holiday_list(Date from, Date to) const {
 }
 
 void Calendar::add_holiday(Date date) {
-  if (!added_holidays_)
-    added_holidays_ = std::make_shared<std::unordered_set<Date>>();
-  added_holidays_->insert(date);
-  if (removed_holidays_)
-    removed_holidays_->erase(date);
+  added_holidays_.insert(date);
+  removed_holidays_.erase(date);
 }
 
 void Calendar::remove_holiday(Date date) {
-  if (!removed_holidays_)
-    removed_holidays_ = std::make_shared<std::unordered_set<Date>>();
-  removed_holidays_->insert(date);
-  if (added_holidays_)
-    added_holidays_->erase(date);
+  removed_holidays_.insert(date);
+  added_holidays_.erase(date);
 }
 
 bool Calendar::operator==(const Calendar &other) const noexcept {
-  return name() == other.name();
+  if (name() != other.name())
+    return false;
+  return added_holidays_ == other.added_holidays_ &&
+         removed_holidays_ == other.removed_holidays_;
 }
 
 // -------------------------------------------------------------
@@ -671,16 +665,49 @@ private:
 
 } // namespace
 
-NullCalendar::NullCalendar() : Calendar(std::make_shared<NullCalendarImpl>()) {}
-WeekendsOnly::WeekendsOnly() : Calendar(std::make_shared<WeekendsOnlyImpl>()) {}
-Target::Target() : Calendar(std::make_shared<TargetImpl>()) {}
-UnitedStates::UnitedStates(Market market)
-    : Calendar(std::make_shared<UnitedStatesImpl>(market)) {}
-UnitedKingdom::UnitedKingdom(Market market)
-    : Calendar(std::make_shared<UnitedKingdomImpl>(market)) {}
-Switzerland::Switzerland(Market market)
-    : Calendar(std::make_shared<SwitzerlandImpl>(market)) {}
-Japan::Japan() : Calendar(std::make_shared<JapanImpl>()) {}
+NullCalendar::NullCalendar() {
+  static const auto inst = std::make_shared<NullCalendarImpl>();
+  impl_ = inst;
+}
+
+WeekendsOnly::WeekendsOnly() {
+  static const auto inst = std::make_shared<WeekendsOnlyImpl>();
+  impl_ = inst;
+}
+
+Target::Target() {
+  static const auto inst = std::make_shared<TargetImpl>();
+  impl_ = inst;
+}
+
+UnitedStates::UnitedStates(Market market) {
+  static const std::shared_ptr<const UnitedStatesImpl> instances[] = {
+      std::make_shared<UnitedStatesImpl>(Market::Settlement),
+      std::make_shared<UnitedStatesImpl>(Market::GovernmentBond),
+      std::make_shared<UnitedStatesImpl>(Market::NYSE),
+      std::make_shared<UnitedStatesImpl>(Market::SOFR)};
+  impl_ = instances[static_cast<size_t>(market)];
+}
+
+UnitedKingdom::UnitedKingdom(Market market) {
+  static const std::shared_ptr<const UnitedKingdomImpl> instances[] = {
+      std::make_shared<UnitedKingdomImpl>(Market::Settlement),
+      std::make_shared<UnitedKingdomImpl>(Market::Exchange),
+      std::make_shared<UnitedKingdomImpl>(Market::Metals)};
+  impl_ = instances[static_cast<size_t>(market)];
+}
+
+Switzerland::Switzerland(Market market) {
+  static const std::shared_ptr<const SwitzerlandImpl> instances[] = {
+      std::make_shared<SwitzerlandImpl>(Market::Settlement),
+      std::make_shared<SwitzerlandImpl>(Market::SIX)};
+  impl_ = instances[static_cast<size_t>(market)];
+}
+
+Japan::Japan() {
+  static const auto inst = std::make_shared<JapanImpl>();
+  impl_ = inst;
+}
 
 JointCalendar::JointCalendar(const Calendar &c1, const Calendar &c2, Rule rule)
     : Calendar(std::make_shared<JointCalendarImpl>(
