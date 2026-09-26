@@ -1,0 +1,7 @@
+BasedOnStyle: Google #LLVM
+IndentWidth: 4
+ColumnLimit: 80
+
+Language: Cpp
+DerivePointerAlignment: false
+PointerAlignment: Left
