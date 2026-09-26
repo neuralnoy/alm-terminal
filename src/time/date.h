@@ -31,5 +31,6 @@ public:
   unsigned day() const;
 
 private:
+  std::chrono::sys_days tp_{};
 };
 } // namespace alm::time
